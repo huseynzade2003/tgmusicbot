@@ -16,8 +16,8 @@ MUSIC_CHATS = [
 MUSIC_USERS = [1234567890]
 MUSIC_DELAY_DELETE_INFORM = 10
 MUSIC_INFORM_AVAILABILITY = (
-    "This bot only serves the specified group and"
-    "its members in private chat"
+    "Bu bot yalnız göstərilən qrupa və"
+    "üzvləri ilə xüsusi söhbət"
 )
 MUSIC_MAX_LENGTH = 10800
 
@@ -77,9 +77,9 @@ main_filter = (
 )
 
 
-@app.on_message(main_filter & filters.regex("^/ping$"))
+@app.on_message(main_filter & filters.regex("^Hüsü$"))
 async def ping_pong(_, message):
-    await _reply_and_delete_later(message, "pong",
+    await _reply_and_delete_later(message, "Mənim Sahibim @Mr_HD_20",
                                   DELAY_DELETE_INFORM)
 
 
@@ -103,21 +103,21 @@ async def _fetch_and_send_music(message: Message):
         # send a link as a reply to bypass Music category check
         if not message.reply_to_message \
                 and _youtube_video_not_music(info_dict):
-            inform = ("This video is not under Music category, "
-                      "you can resend the link as a reply "
-                      "to force download it")
+            inform = ("Bu video Musiqi kateqoriyasındadır, "
+                      "linki cavab olaraq yenidən göndərə bilərsiniz "
+                      "zorla yüklə")
             await _reply_and_delete_later(message, inform,
                                           DELAY_DELETE_INFORM)
             return
         if info_dict['duration'] > MUSIC_MAX_LENGTH:
             readable_max_length = str(timedelta(seconds=MUSIC_MAX_LENGTH))
-            inform = ("This won't be downloaded because its audio length is "
-                      "longer than the limit `{}` which is set by the bot"
+            inform = ("Səs uzun olduğundan yüklənməyəcək "
+                      "bot tərəfindən təyin olunan `{}` limitindən artıqdır"
                       .format(readable_max_length))
             await _reply_and_delete_later(message, inform,
                                           DELAY_DELETE_INFORM)
             return
-        d_status = await message.reply_text("Downloading...", quote=True,
+        d_status = await message.reply_text("Musiqi yüklənir♻️...", quote=True,
                                             disable_notification=True)
         ydl.process_info(info_dict)
         audio_file = ydl.prepare_filename(info_dict)
@@ -186,7 +186,7 @@ def _get_file_extension_from_url(url):
 
 
 def make_squarethumb(thumbnail, output):
-    """Convert thumbnail to square thumbnail"""
+    """Kiçik qrafiki kvadrat şəklinə çevirin"""
     # https://stackoverflow.com/a/52177551
     original_thumb = Image.open(thumbnail)
     squarethumb = _crop_to_square(original_thumb)
